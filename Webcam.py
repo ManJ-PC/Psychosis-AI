@@ -1,37 +1,24 @@
-import cv2, time
- 
+import cv2
+
+#Capture video from webcam
 #1. Create an object. Zero for external camera
-video = cv2.VideoCapture(0)
+vid_capture = cv2.VideoCapture(0)
 
-#8. a variable
-a=0
- 
-while True:
-    a = a+1
-    #3. Create a frame object
-    check, frame = video.read()
+#Save video in a current folder
+fourcc = cv2.VideoWriter_fourcc(*'MPEG')
+out = cv2.VideoWriter('output.avi',fourcc, 20.0, (640,480))
 
-    print(check)
-    print(frame)  # Representing image
+while(True):
+     # Capture each frame of webcam video
+     ret,frame = vid_capture.read()
+     cv2.imshow("My cam video", frame)
+     out.write(frame)
+     # Close and break the loop after pressing "x" key
+     if cv2.waitKey(1) &0XFF == ord('x'):
+         break
 
-    #6. Converting to grayscale
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-    #4 Show the frame!
-
-    cv2.imshow("Capturing", gray)
-
-    #5.For press any key to out (miliseconds)
-    #cv2.waitKey(0)
-
-    #7. For playing
-    key = cv2.waitKey(1)
-
-    if key == ord('q'):
-        break
-
-print(a)
-#2. Shutdown the camera
-video.release()
-
-cv2.destroyAllWindows
+# close the already opened camera
+vid_capture.release()
+# close the already opened file
+output.release()
+# close the window and de-allocate any associated memory usage
